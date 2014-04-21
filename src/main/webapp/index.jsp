@@ -157,50 +157,8 @@ limitations under the License.
 
   <div class="row">
     <div class="span4">
-      <h2>Timeline</h2>
+      <h2>Settings</h2>
 
-      <p>When you first sign in, this Glassware inserts a welcome message. Use
-        these controls to insert more items into your timeline. Learn more
-        about the timeline APIs
-        <a href="https://developers.google.com/glass/timeline">here</a>.</p>
-
-
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItem">
-        <textarea class="span4" name="message">Hello World!</textarea><br/>
-        <button class="btn btn-block" type="submit">
-          Insert the above message
-        </button>
-      </form>
-
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItem">
-        <input type="hidden" name="message" value="Chipotle says 'hi'!">
-        <input type="hidden" name="imageUrl" value="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        <input type="hidden" name="contentType" value="image/jpeg">
-
-        <button class="btn btn-block" type="submit">Insert a picture
-          <img class="button-icon" src="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        </button>
-      </form>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertPaginatedItem">
-        <button class="btn btn-block" type="submit">
-          Insert a card with long paginated HTML</button>
-      </form>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItemWithAction">
-        <button class="btn btn-block" type="submit">
-          Insert a card you can reply to</button>
-      </form>
-      <hr>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItemAllUsers">
-        <button class="btn btn-block" type="submit">
-          Insert a card to all users</button>
-      </form>
       <hr>
       <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
         <input type="hidden" name="operation" value="sendBirthday">
@@ -208,93 +166,6 @@ limitations under the License.
           Send Birthday! Wink Wink
         </button>
       </form>
-    </div>
-
-    <div class="span4">
-      <h2>Contacts</h2>
-
-      <p>By default, this project inserts a single contact that accepts
-        all content types. Learn more about contacts
-        <a href="https://developers.google.com/glass/contacts">here</a>.</p>
-
-      <% if (contact == null) { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertContact">
-        <input type="hidden" name="iconUrl" value="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        <input type="hidden" name="id"
-               value="<%= MainServlet.CONTACT_ID %>">
-        <input type="hidden" name="name"
-               value="<%= MainServlet.CONTACT_NAME %>">
-        <button class="btn btn-block btn-success" type="submit">
-          Insert Java Quick Start Contact
-        </button>
-      </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="deleteContact">
-        <input type="hidden" name="id" value="<%= MainServlet.CONTACT_ID %>">
-        <button class="btn btn-block btn-danger" type="submit">
-          Delete Java Quick Start Contact
-        </button>
-      </form>
-      <% } %>
-
-      <h3>Voice Commands</h3>
-      <p>The "Java Quick Start" contact also accepts the <strong>take a
-        note</strong> command. Take a note with the "Java Quick Start" contact
-        and the cat in the server will record your note and reply with one of
-        a few cat utterances.</p>
-    </div>
-
-    <div class="span4">
-      <h2>Subscriptions</h2>
-
-      <p>By default a subscription is inserted for changes to the
-        <code>timeline</code> collection. Learn more about subscriptions
-        <a href="https://developers.google.com/glass/subscriptions">here</a>.
-      </p>
-
-      <p class="alert alert-info">Note: Subscriptions require SSL. They will
-        not work on localhost.</p>
-
-      <% if (timelineSubscriptionExists) { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>"
-            method="post">
-        <input type="hidden" name="subscriptionId" value="timeline">
-        <input type="hidden" name="operation" value="deleteSubscription">
-        <button class="btn btn-block btn-danger" type="submit" class="delete">
-          Unsubscribe from timeline updates
-        </button>
-      </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertSubscription">
-        <input type="hidden" name="collection" value="timeline">
-        <button class="btn btn-block btn-success" type="submit">
-          Subscribe to timeline updates
-        </button>
-      </form>
-      <% } %>
-
-      <% if (locationSubscriptionExists) { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>"
-            method="post">
-        <input type="hidden" name="subscriptionId" value="locations">
-        <input type="hidden" name="operation" value="deleteSubscription">
-        <button class="btn btn-block btn-danger" type="submit" class="delete">
-          Unsubscribe from location updates
-        </button>
-      </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertSubscription">
-        <input type="hidden" name="collection" value="locations">
-        <button class="btn btn-block btn-success" type="submit">
-          Subscribe to location updates
-        </button>
-      </form>
-      <% } %>
     </div>
   </div>
 </div>
