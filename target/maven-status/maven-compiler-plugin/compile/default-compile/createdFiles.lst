@@ -5,6 +5,7 @@ com/google/glassware/MirrorClient.class
 com/google/glassware/WebUtil.class
 com/google/glassware/AuthServlet.class
 com/google/glassware/ListableMemoryCredentialStore.class
+com/google/glassware/GlassTimer.class
 com/google/glassware/MainServlet.class
 com/google/glassware/ListableMemoryCredentialStore$MemoryPersistedCredential.class
 com/google/glassware/AttachmentProxyServlet.class

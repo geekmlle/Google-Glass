@@ -157,10 +157,13 @@ public class MainServlet extends HttpServlet {
 
 		}else 
 	 if (req.getParameter("operation").equals("sendBirthday")) {
-			TimerTask task = new GlassTimer(17,57,this,credential);
+	 
+			/*TimerTask task = new GlassTimer(17,57,this,credential);
 			Timer timer = new Timer();
 			timer.schedule(task, 1000, 1000*60);
-			message = "Timer has started.";    
+			message = "Timer has started.";    */
+			
+			message = req.getParameter("selectHour")+":"+req.getParameter("selectMinute");			
 		}  
      else {
       String operation = req.getParameter("operation");
