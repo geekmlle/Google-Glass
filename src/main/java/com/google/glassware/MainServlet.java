@@ -45,7 +45,9 @@ import javax.servlet.http.HttpServletResponse;
  * Handles POST requests from index.jsp
  *
  * @author Jenny Murphy - http://google.com/+JennyMurphy
+ * @author Modified by Diana Melara - http://github.com/geekmlle
  */
+ 
 public class MainServlet extends HttpServlet {
 
   /**
@@ -54,6 +56,7 @@ public class MainServlet extends HttpServlet {
    * For more information, see
    * https://code.google.com/p/google-api-java-client/wiki/Batch.
    */
+   
   private final class BatchCallback extends JsonBatchCallback<TimelineItem> {
     private int success = 0;
     private int failure = 0;
@@ -73,102 +76,56 @@ public class MainServlet extends HttpServlet {
   private static final Logger LOG = Logger.getLogger(MainServlet.class.getSimpleName());
   public static final String CONTACT_ID = "com.google.glassware.contact.java-quick-start";
   public static final String CONTACT_NAME = "Java Quick Start";
-
-  private static final String PAGINATED_HTML =
-      "<article class='auto-paginate'>"
-      + "<h2 class='blue text-large'>Did you know...?</h2>"
-      + "<p>Cats are <em class='yellow'>solar-powered.</em> The time they spend napping in "
-      + "direct sunlight is necessary to regenerate their internal batteries. Cats that do not "
-      + "receive sufficient charge may exhibit the following symptoms: lethargy, "
-      + "irritability, and disdainful glares. Cats will reactivate on their own automatically "
-      + "after a complete charge cycle; it is recommended that they be left undisturbed during "
-      + "this process to maximize your enjoyment of your cat.</p><br/><p>"
-      + "For more cat maintenance tips, tap to view the website!</p>"
-      + "</article>";
-
+  private static TimerTask task;
+  private static Timer timer;
+ 
   /**
    * Do stuff when buttons on index.jsp are clicked
    */
+   
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
     String userId = AuthUtil.getUserId(req);
     Credential credential = AuthUtil.newAuthorizationCodeFlow().loadCredential(userId);
     String message = "";
-
-    if (req.getParameter("operation").equals("insertSubscription")) {
-
-      // subscribe (only works deployed to production)
-      try {
-        MirrorClient.insertSubscription(credential, WebUtil.buildUrl(req, "/notify"), userId,
-            req.getParameter("collection"));
-        message = "Application is now subscribed to updates.";
-      } catch (GoogleJsonResponseException e) {
-        LOG.warning("Could not subscribe " + WebUtil.buildUrl(req, "/notify") + " because "
-            + e.getDetails().toPrettyString());
-        message = "Failed to subscribe. Check your log for details";
-      }
-
-    } else 
-    if (req.getParameter("operation").equals("deleteSubscription")) {
-
-      // subscribe (only works deployed to production)
-      MirrorClient.deleteSubscription(credential, req.getParameter("subscriptionId"));
-
-      message = "Application has been unsubscribed.";
-
-    } else 
-      //--------------------------------------------- 
-     if (req.getParameter("operation").equals("insertContact")) {
-      if (req.getParameter("iconUrl") == null || req.getParameter("name") == null) {
-        message = "Must specify iconUrl and name to insert contact";
-      } else 
-      {
-        // Insert a contact
-        LOG.fine("Inserting contact Item");
-        Contact contact = new Contact();
-        contact.setId(req.getParameter("id"));
-        contact.setDisplayName(req.getParameter("name"));
-        contact.setImageUrls(Lists.newArrayList(req.getParameter("iconUrl")));
-        contact.setAcceptCommands(Lists.newArrayList(new Command().setType("TAKE_A_NOTE")));
-        MirrorClient.insertContact(credential, contact);
-
-        message = "Inserted contact: " + req.getParameter("name");
-      }
-
-   		 } else 
-	 if (req.getParameter("operation").equals("deleteContact")) {
-
-		  // Insert a contact
-		  LOG.fine("Deleting contact Item");
-		  MirrorClient.deleteContact(credential, req.getParameter("id"));
-
-		  message = "Contact has been deleted.";
-
-		} else 
-	 if (req.getParameter("operation").equals("deleteTimelineItem")) 
-		{
-
-		  // Delete a timeline item
-		  LOG.fine("Deleting Timeline Item");
-		  MirrorClient.deleteTimelineItem(credential, req.getParameter("itemId"));
-
-		  message = "Timeline Item has been deleted.";
-
-		}else 
+ 	boolean timerManager = false;  
+ 
 	 if (req.getParameter("operation").equals("sendBirthday")) {
+		 int minute = Integer.parseInt(req.getParameter("selectMinute")); 
+		 int hour = Integer.parseInt(req.getParameter("selectHour"));  
+	
+		 if(timerManager == false){
+			 task = new GlassTimer(hour,minute,this,credential);
+			 timer = new Timer();
+			 timer.schedule(task, 1000, 1000*60);
+			 timerManager = true;
+			 message = "Timer started for notifications at "+hour+":"+minute+" (24HR Time)";			
+		 }
+		 else{
+			 message = "The notifications are already running. Please stop before starting again. ";
+		 }
+	} 
+	else
+	if (req.getParameter("operation").equals("stopNotifications")) {
 	 
-			/*TimerTask task = new GlassTimer(17,57,this,credential);
-			Timer timer = new Timer();
-			timer.schedule(task, 1000, 1000*60);
-			message = "Timer has started.";    */
+		if(timerManager==true){
+			timer.cancel();
+			timer.purge();
+			timerManager = false;
+			message = "Timer has been stopped.";
+		}
+		else{
+			timerManager = true;
+			message = "Timer can't be stopped because it's not running.";
+		}
 			
-			message = req.getParameter("selectHour")+":"+req.getParameter("selectMinute");			
-		}  
-     else {
+	}
+	else {
       String operation = req.getParameter("operation");
       LOG.warning("Unknown operation specified " + operation);
       message = "I don't know how to do that";
+      
     }
     WebUtil.setFlash(req, message);
     res.sendRedirect(WebUtil.buildUrl(req, "/"));
@@ -176,10 +133,10 @@ public class MainServlet extends HttpServlet {
   
   public void sendBirthdayCard(Credential credential){
 	  String html =  "<article class='auto-paginate'>"
-  		      + "<h2 class='blue text-large'>It's your special day today...</h2>"
-  		      + "<p>Happy Birthday to you! "
-  		      + "</p><br/>"
-  		      + "</article>";;
+		  		      + "<h2 class='blue text-large'>yup!...</h2>"
+		  		      + "<p>Happy Birthday to you! "
+		  		      + "</p><br/>"
+		  		      + "</article>";
   	
   	  LOG.fine("Inserting Timeline Item");
       TimelineItem timelineItem = new TimelineItem();
@@ -200,5 +157,7 @@ public class MainServlet extends HttpServlet {
     	  LOG.fine("Error Sending TimeLine Item");
       }
   }
+  
+
   
 }
