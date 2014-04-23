@@ -157,137 +157,176 @@ limitations under the License.
 
   <div class="row">
     <div class="span4">
-      <h2>Timeline</h2>
-
-      <p>When you first sign in, this Glassware inserts a welcome message. Use
-        these controls to insert more items into your timeline. Learn more
-        about the timeline APIs
-        <a href="https://developers.google.com/glass/timeline">here</a>.</p>
-
-
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItem">
-        <textarea class="span4" name="message">Hello World!</textarea><br/>
-        <button class="btn btn-block" type="submit">
-          Insert the above message
-        </button>
-      </form>
-
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItem">
-        <input type="hidden" name="message" value="Chipotle says 'hi'!">
-        <input type="hidden" name="imageUrl" value="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        <input type="hidden" name="contentType" value="image/jpeg">
-
-        <button class="btn btn-block" type="submit">Insert a picture
-          <img class="button-icon" src="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        </button>
-      </form>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertPaginatedItem">
-        <button class="btn btn-block" type="submit">
-          Insert a card with long paginated HTML</button>
-      </form>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItemWithAction">
-        <button class="btn btn-block" type="submit">
-          Insert a card you can reply to</button>
-      </form>
+      <h2>Holiday Notifications</h2>
+      <h3>Settings</h3>
+      
+	  <p> Pick the time in which you want to get your notifications! (It's in 24 hour time)</p>
       <hr>
       <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertItemAllUsers">
+        <input type="hidden" name="operation" value="sendBirthday">
+		<!-- Time Input, Hour and then Minute
+		HOUR:-->
+        <select id="selectHour" name="selectHour">
+			<option value="0" >0</option>
+			<option value="1" >1</option>
+			<option value="2" >2</option>
+			<option value="3" >3</option>
+			<option value="4" >4</option>
+			<option value="5" >5</option>
+			<option value="6" >6</option>
+			<option value="7" >7</option>
+			<option value="8" >8</option>
+			<option value="9" selected="true">9</option>
+			<option value="10" >10</option>
+			<option value="11" >11</option>
+			<option value="12" >12</option>
+			<option value="13" >13</option>
+			<option value="14" >14</option>
+			<option value="15" >15</option>
+			<option value="16" >16</option>
+			<option value="17" >17</option>
+			<option value="18" >18</option>
+			<option value="19" >19</option>
+			<option value="20" >20</option>
+			<option value="21" >21</option>
+			<option value="22" >22</option>
+			<option value="23" >23</option>
+		</select>
+		<!-- Time Input, Hour and then Minute
+		MINUTE:-->
+        <select id="selectMinute" name="selectMinute">
+			<option value="0" selected="true">00</option>
+			<option value="1" >01</option>
+			<option value="2" >02</option>
+			<option value="3" >03</option>
+			<option value="4" >04</option>
+			<option value="5" >05</option>
+			<option value="6" >06</option>
+			<option value="7" >07</option>
+			<option value="8" >08</option>
+			<option value="9" >09</option>
+			<option value="10" >10</option>
+			<option value="11" >11</option>
+			<option value="12" >12</option>
+			<option value="13" >13</option>
+			<option value="14" >14</option>
+			<option value="15" >15</option>
+			<option value="16" >16</option>
+			<option value="17" >17</option>
+			<option value="18" >18</option>
+			<option value="19" >19</option>
+			<option value="20" >20</option>
+			<option value="21" >21</option>
+			<option value="22" >22</option>
+			<option value="23" >23</option>
+			<option value="24" >24</option>
+			<option value="25" >25</option>
+			<option value="26" >26</option>
+			<option value="27" >27</option>
+			<option value="28" >28</option>
+			<option value="29" >29</option>
+			<option value="30" >30</option>
+			<option value="31" >31</option>
+			<option value="32" >32</option>
+			<option value="33" >33</option>
+			<option value="34" >34</option>
+			<option value="35" >35</option>
+			<option value="36" >36</option>
+			<option value="37" >37</option>
+			<option value="38" >38</option>
+			<option value="39" >39</option>
+			<option value="40" >40</option>
+			<option value="41" >41</option>
+			<option value="42" >42</option>
+			<option value="43" >43</option>
+			<option value="44" >44</option>
+			<option value="45" >45</option>
+			<option value="46" >46</option>
+			<option value="47" >47</option>
+			<option value="48" >48</option>
+			<option value="49" >49</option>
+			<option value="50" >50</option>
+			<option value="51" >51</option>
+			<option value="52" >52</option>
+			<option value="53" >53</option>
+			<option value="54" >54</option>
+			<option value="55" >55</option>
+			<option value="56" >56</option>
+			<option value="57" >57</option>
+			<option value="58" >58</option>
+			<option value="59" >59</option>
+		</select>
+		<hr>
+		<p>
+		
+		Input your Birthday!
+		
+		</p>
+		
+		<br>
+		Month:
+		<select id="bdayMonth" name="bdayMonth">
+			<option value="1" >January</option>
+			<option value="2" >February</option>
+			<option value="3" >March</option>
+			<option value="4" >April</option>
+			<option value="5" >May</option>
+			<option value="6" >June</option>
+			<option value="7" >July</option>
+			<option value="8" >August</option>
+			<option value="9" >September</option>
+			<option value="10" >October</option>
+			<option value="11" >November</option>
+			<option value="12" >December</option>
+		</select>
+		<br>
+		Day:
+		<select id="bdayDay" name="bdayDay">
+			<option value="1" >1</option>
+			<option value="2" >2</option>
+			<option value="3" >3</option>
+			<option value="4" >4</option>
+			<option value="5" >5</option>
+			<option value="6" >6</option>
+			<option value="7" >7</option>
+			<option value="8" >8</option>
+			<option value="9" >9</option>
+			<option value="10" >10</option>
+			<option value="11" >11</option>
+			<option value="12" >12</option>
+			<option value="13" >13</option>
+			<option value="14" >14</option>
+			<option value="15" >15</option>
+			<option value="16" >16</option>
+			<option value="17" >17</option>
+			<option value="18" >18</option>
+			<option value="19" >19</option>
+			<option value="20" >20</option>
+			<option value="21" >21</option>
+			<option value="22" >22</option>
+			<option value="23" >23</option>
+			<option value="24" >24</option>
+			<option value="25" >25</option>
+			<option value="26" >26</option>
+			<option value="27" >27</option>
+			<option value="28" >28</option>
+			<option value="29" >29</option>
+			<option value="30" >30</option>
+			<option value="31" >31</option>
+		</select>
+		
         <button class="btn btn-block" type="submit">
-          Insert a card to all users</button>
+          Get Notifications!
+        </button>
       </form>
-    </div>
-
-    <div class="span4">
-      <h2>Contacts</h2>
-
-      <p>By default, this project inserts a single contact that accepts
-        all content types. Learn more about contacts
-        <a href="https://developers.google.com/glass/contacts">here</a>.</p>
-
-      <% if (contact == null) { %>
+      
       <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertContact">
-        <input type="hidden" name="iconUrl" value="<%= appBaseUrl +
-               "static/images/chipotle-tube-640x360.jpg" %>">
-        <input type="hidden" name="id"
-               value="<%= MainServlet.CONTACT_ID %>">
-        <input type="hidden" name="name"
-               value="<%= MainServlet.CONTACT_NAME %>">
-        <button class="btn btn-block btn-success" type="submit">
-          Insert Java Quick Start Contact
+        <input type="hidden" name="operation" value="stopNotifications">
+		  <button class="btn btn-block" type="submit">
+          Stop Notifications!
         </button>
       </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="deleteContact">
-        <input type="hidden" name="id" value="<%= MainServlet.CONTACT_ID %>">
-        <button class="btn btn-block btn-danger" type="submit">
-          Delete Java Quick Start Contact
-        </button>
-      </form>
-      <% } %>
-
-      <h3>Voice Commands</h3>
-      <p>The "Java Quick Start" contact also accepts the <strong>take a
-        note</strong> command. Take a note with the "Java Quick Start" contact
-        and the cat in the server will record your note and reply with one of
-        a few cat utterances.</p>
-    </div>
-
-    <div class="span4">
-      <h2>Subscriptions</h2>
-
-      <p>By default a subscription is inserted for changes to the
-        <code>timeline</code> collection. Learn more about subscriptions
-        <a href="https://developers.google.com/glass/subscriptions">here</a>.
-      </p>
-
-      <p class="alert alert-info">Note: Subscriptions require SSL. They will
-        not work on localhost.</p>
-
-      <% if (timelineSubscriptionExists) { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>"
-            method="post">
-        <input type="hidden" name="subscriptionId" value="timeline">
-        <input type="hidden" name="operation" value="deleteSubscription">
-        <button class="btn btn-block btn-danger" type="submit" class="delete">
-          Unsubscribe from timeline updates
-        </button>
-      </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertSubscription">
-        <input type="hidden" name="collection" value="timeline">
-        <button class="btn btn-block btn-success" type="submit">
-          Subscribe to timeline updates
-        </button>
-      </form>
-      <% } %>
-
-      <% if (locationSubscriptionExists) { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>"
-            method="post">
-        <input type="hidden" name="subscriptionId" value="locations">
-        <input type="hidden" name="operation" value="deleteSubscription">
-        <button class="btn btn-block btn-danger" type="submit" class="delete">
-          Unsubscribe from location updates
-        </button>
-      </form>
-      <% } else { %>
-      <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
-        <input type="hidden" name="operation" value="insertSubscription">
-        <input type="hidden" name="collection" value="locations">
-        <button class="btn btn-block btn-success" type="submit">
-          Subscribe to location updates
-        </button>
-      </form>
-      <% } %>
+      
     </div>
   </div>
 </div>

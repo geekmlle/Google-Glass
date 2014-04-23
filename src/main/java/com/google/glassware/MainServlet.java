@@ -34,8 +34,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -76,8 +74,8 @@ public class MainServlet extends HttpServlet {
   private static final Logger LOG = Logger.getLogger(MainServlet.class.getSimpleName());
   public static final String CONTACT_ID = "com.google.glassware.contact.java-quick-start";
   public static final String CONTACT_NAME = "Java Quick Start";
-  private static TimerTask task;
-  private static Timer timer;
+  private CronManager cm = null;
+  
  
   /**
    * Do stuff when buttons on index.jsp are clicked
@@ -87,39 +85,50 @@ public class MainServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
     String userId = AuthUtil.getUserId(req);
-    Credential credential = AuthUtil.newAuthorizationCodeFlow().loadCredential(userId);
+    //Credential credential = AuthUtil.newAuthorizationCodeFlow().loadCredential(userId);
     String message = "";
- 	boolean timerManager = false;  
- 
+ 	
 	 if (req.getParameter("operation").equals("sendBirthday")) {
+		 
 		 int minute = Integer.parseInt(req.getParameter("selectMinute")); 
 		 int hour = Integer.parseInt(req.getParameter("selectHour"));  
-	
-		 if(timerManager == false){
-			 task = new GlassTimer(hour,minute,this,credential);
-			 timer = new Timer();
-			 timer.schedule(task, 1000, 1000*60);
-			 timerManager = true;
-			 message = "Timer started for notifications at "+hour+":"+minute+" (24HR Time)";			
+		 boolean dateCheckbox = req.getParameter("InputBirthdate") != null;
+		 int month = Integer.parseInt(req.getParameter("bdayMonth"));
+		 int day = Integer.parseInt(req.getParameter("bdayDay"));
+		 
+		 if(cm==null){
+			 
+			if(dateCheckbox==true){
+				 cm = new CronManager(hour,minute,day,month,userId);
+			 }else{
+				 cm = new CronManager(hour,minute,0,0,userId);
+			 }
+			 
+			 try {
+				cm.run();
+		     } catch (Exception e) {
+				message = "Something bad happened. Couldn't start the timer.";		
+				e.printStackTrace();
+		     }
+			 message = "Timer started for notifications at "+hour+":"+minute+" (24HR Time)";
 		 }
 		 else{
-			 message = "The notifications are already running. Please stop before starting again. ";
+			 message = "Timer has already started. Please stop notifications to start again.";
 		 }
+		 
 	} 
 	else
 	if (req.getParameter("operation").equals("stopNotifications")) {
 	 
-		if(timerManager==true){
-			timer.cancel();
-			timer.purge();
-			timerManager = false;
-			message = "Timer has been stopped.";
+		if(cm!=null && cm.isRunning()){
+			cm.stopNotifications();
+			message = "Timer Stopped.";
+			cm = null;
 		}
 		else{
-			timerManager = true;
-			message = "Timer can't be stopped because it's not running.";
+			message = "Can't stop timer. Timer hasn't started.";
 		}
-			
+		
 	}
 	else {
       String operation = req.getParameter("operation");
@@ -131,32 +140,8 @@ public class MainServlet extends HttpServlet {
     res.sendRedirect(WebUtil.buildUrl(req, "/"));
   }
   
-  public void sendBirthdayCard(Credential credential){
-	  String html =  "<article class='auto-paginate'>"
-		  		      + "<h2 class='blue text-large'>yup!...</h2>"
-		  		      + "<p>Happy Birthday to you! "
-		  		      + "</p><br/>"
-		  		      + "</article>";
-  	
-  	  LOG.fine("Inserting Timeline Item");
-      TimelineItem timelineItem = new TimelineItem();
-      timelineItem.setHtml(html);
+  
 
-      List<MenuItem> menuItemList = new ArrayList<MenuItem>();
-      menuItemList.add(new MenuItem().setAction("OPEN_URI").setPayload(
-          "https://www.google.com/search?q=cat+maintenance+tips"));
-      timelineItem.setMenuItems(menuItemList);
-
-      // Triggers an audible tone when the timeline item is received
-      timelineItem.setNotification(new NotificationConfig().setLevel("DEFAULT"));
-      
-      try{
-      MirrorClient.insertTimelineItem(credential, timelineItem);
-      }
-      catch(Exception e){
-    	  LOG.fine("Error Sending TimeLine Item");
-      }
-  }
   
 
   
