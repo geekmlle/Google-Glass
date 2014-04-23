@@ -160,7 +160,7 @@ limitations under the License.
       <h2>Holiday Notifications</h2>
       <h3>Settings</h3>
       
-	  <p> Pick the time in which you want to get your notifications! (It's in 24 hour time)</p>
+	  <p> Pick the time in which you want to get your notifications! </p>
       <hr>
       <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
         <input type="hidden" name="operation" value="sendBirthday">
