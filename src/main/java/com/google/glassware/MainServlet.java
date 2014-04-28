@@ -74,7 +74,6 @@ public class MainServlet extends HttpServlet {
   private static final Logger LOG = Logger.getLogger(MainServlet.class.getSimpleName());
   public static final String CONTACT_ID = "com.google.glassware.contact.java-quick-start";
   public static final String CONTACT_NAME = "Java Quick Start";
-  private CronManager cm = null;
   
  
   /**
@@ -96,38 +95,15 @@ public class MainServlet extends HttpServlet {
 		 int month = Integer.parseInt(req.getParameter("bdayMonth"));
 		 int day = Integer.parseInt(req.getParameter("bdayDay"));
 		 
-		 if(cm==null){
-			 
-			if(dateCheckbox==true){
-				 cm = new CronManager(hour,minute,day,month,userId);
-			 }else{
-				 cm = new CronManager(hour,minute,0,0,userId);
-			 }
-			 
-			 try {
-				cm.run();
-		     } catch (Exception e) {
-				message = "Something bad happened. Couldn't start the timer.";		
-				e.printStackTrace();
-		     }
-			 message = "Timer started for notifications at "+hour+":"+minute+" (24HR Time)";
-		 }
-		 else{
-			 message = "Timer has already started. Please stop notifications to start again.";
-		 }
+		 message="Just a message";
 		 
 	} 
 	else
 	if (req.getParameter("operation").equals("stopNotifications")) {
 	 
-		if(cm!=null && cm.isRunning()){
-			cm.stopNotifications();
-			message = "Timer Stopped.";
-			cm = null;
-		}
-		else{
-			message = "Can't stop timer. Timer hasn't started.";
-		}
+		
+			message = "Just another message";
+		
 		
 	}
 	else {
