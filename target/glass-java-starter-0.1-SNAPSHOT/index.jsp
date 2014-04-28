@@ -160,37 +160,37 @@ limitations under the License.
       <h2>Holiday Notifications</h2>
       <h3>Settings</h3>
       
-	  <p> Pick the time in which you want to get your notifications! (It's in 24 hour time)</p>
+	  <p> Pick the time in which you want to get your notifications! </p>
       <hr>
       <form action="<%= WebUtil.buildUrl(request, "/main") %>" method="post">
         <input type="hidden" name="operation" value="sendBirthday">
 		<!-- Time Input, Hour and then Minute
 		HOUR:-->
         <select id="selectHour" name="selectHour">
-			<option value="0" >0</option>
-			<option value="1" >1</option>
-			<option value="2" >2</option>
-			<option value="3" >3</option>
-			<option value="4" >4</option>
-			<option value="5" >5</option>
-			<option value="6" >6</option>
-			<option value="7" >7</option>
-			<option value="8" >8</option>
-			<option value="9" selected="true">9</option>
-			<option value="10" >10</option>
-			<option value="11" >11</option>
-			<option value="12" >12</option>
-			<option value="13" >13</option>
-			<option value="14" >14</option>
-			<option value="15" >15</option>
-			<option value="16" >16</option>
-			<option value="17" >17</option>
-			<option value="18" >18</option>
-			<option value="19" >19</option>
-			<option value="20" >20</option>
-			<option value="21" >21</option>
-			<option value="22" >22</option>
-			<option value="23" >23</option>
+			<option value="0" >12 am</option>
+			<option value="1" >1 am</option>
+			<option value="2" >2 am</option>
+			<option value="3" >3 am</option>
+			<option value="4" >4 am</option>
+			<option value="5" >5 am</option>
+			<option value="6" >6 am</option>
+			<option value="7" >7 am</option>
+			<option value="8" >8 am</option>
+			<option value="9" selected="true">9 am</option>
+			<option value="10" >10 am</option>
+			<option value="11" >11 am</option>
+			<option value="12" >12 pm</option>
+			<option value="13" >1 pm</option>
+			<option value="14" >2 pm</option>
+			<option value="15" >3 pm</option>
+			<option value="16" >4 pm</option>
+			<option value="17" >5 pm</option>
+			<option value="18" >6 pm</option>
+			<option value="19" >7 pm</option>
+			<option value="20" >8 pm</option>
+			<option value="21" >9 pm</option>
+			<option value="22" >10 pm</option>
+			<option value="23" >11 pm</option>
 		</select>
 		<!-- Time Input, Hour and then Minute
 		MINUTE:-->
@@ -262,6 +262,10 @@ limitations under the License.
 		Input your Birthday!
 		
 		</p>
+		
+		
+			<input type="checkbox" name="InputBirthdate" id="InputBirthdate" value=y>Input Birthday
+		
 		
 		<br>
 		Month:
